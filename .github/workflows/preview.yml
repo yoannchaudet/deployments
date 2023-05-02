@@ -1,0 +1,22 @@
+name: Preview
+on:
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+  schedule:
+    - cron: "30 * * * *" # every 30 min
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo build
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: preview
+      url: https://preview.example.com
+    steps:
+      - run: echo deploy
